@@ -1,0 +1,29 @@
+.search-bar-wrap {
+  display: inline-flex;
+  align-items: center;
+  flex-flow: row-reverse;
+}
+
+.search-icon {
+  position: absolute;
+  width: 1rem;
+  height: 1rem;
+  margin-right: 0.25rem;
+}
+
+#search-bar {
+  width: 11.5rem;
+  height: 1.625rem;
+}
+
+@media (min-width: 768px) {
+  #search-bar {
+    width: 8rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  #search-bar {
+    width: 11.5rem;
+  }
+}

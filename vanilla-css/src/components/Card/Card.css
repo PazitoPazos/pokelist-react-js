@@ -1,0 +1,111 @@
+.Card {
+  position: relative;
+  display: grid;
+  background-color: #e7e7e7;
+  margin: 0 auto;
+  width: calc(80% * 0.77705);
+  height: fit-content;
+  border: 4px solid black;
+  border-radius: 4px;
+  animation: loadingCard 0.75s ease-in;
+  animation-delay: 0.01s;
+}
+
+@keyframes loadingCard {
+  0% {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+
+  50% {
+    opacity: 0.1;
+    transform: translateY(-20px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.pk-image {
+  border-bottom: 4px solid black;
+}
+
+.pk-image img {
+  aspect-ratio: 1/1;
+  height: 10rem;
+  margin-bottom: -0.4rem;
+}
+
+.pk-desc {
+  margin-bottom: 0.2rem;
+  animation: shrink 0.75s;
+  transition: all 0.75s ease-in-out;
+}
+
+@keyframes shrink {
+  0% {
+    height: 8.75rem;
+  }
+
+  100% {
+    height: 3rem;
+  }
+}
+
+.pk-desc.is-expanded {
+  animation: expand 0.75s;
+  transition: all 0.75s ease-out;
+}
+
+@keyframes expand {
+  0% {
+    height: 3rem;
+  }
+
+  100% {
+    height: 8.75rem;
+  }
+}
+
+.pk-info, .pk-types {
+  display: flex;
+}
+
+.pk-info {
+  margin: 0rem 0.4rem;
+  justify-content: space-between;
+}
+
+.pk-types {
+  justify-content: space-around;
+}
+
+.vs {
+  display: none;
+  margin: 0.2rem 0.4rem 0.6rem;
+}
+
+.vs.is-expanded {
+  display: block;
+  animation: visible 3s;
+  transition: all 1s ease-out;
+}
+
+@keyframes visible {
+  0% {
+    opacity: 0;
+  }
+  
+  100% {
+    opacity: 1;
+  }
+}
+
+.icon-vs {
+  display: flex;
+  justify-content: center;
+  column-gap: 0.25rem;
+  height: 1rem;
+}
