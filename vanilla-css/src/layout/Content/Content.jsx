@@ -1,33 +1,41 @@
 import './Content.css'
 import { useEffect, useState } from 'react'
 import Card from '../../components/Card/Card'
-import getPokemons from '../../services/getPokemons'
 
 export default function Content() {
-  const [poke, setPoke] = useState('')
+  const [poke, setPoke] = useState([])
+  const [pkSprites, setPkSprites] = useState([])
+
   async function getPokemon() {
     const pokeListUrl = 'https://pokeapi.co/api/v2/pokemon/'
 
     const resList = await fetch(pokeListUrl)
     const pokeList = await resList.json()
 
-    const pokeEntry = pokeList.results.find((poke) => poke.name === 'charmander')
+    const pokeEntries = pokeList.results.map((poke) => poke)
 
-    const resPoke = await fetch(pokeEntry.url)
-    const charmander = await resPoke.json()
-    const charSprite = await charmander.sprites.front_default
+    const resPoke = pokeEntries.map(async (entry) => {
+      const resData = await fetch(pokeListUrl + `${entry.name}`)
+      const pokeData = await resData.json()
 
-    setPoke(charSprite)
+      return pokeData
+    })
+
+    const results = await Promise.all(resPoke)
+    setPoke(results)
   }
 
   useEffect(() => {
     getPokemon()
+    // console.log(poke)
   }, [])
 
   return (
     <div className='Content'>
       <div className='List-of-cards'>
-        <Card url={poke} />
+        {poke.map((p, i) => (
+          <Card key={i} pkData={p} />
+        ))}
       </div>
     </div>
   )
