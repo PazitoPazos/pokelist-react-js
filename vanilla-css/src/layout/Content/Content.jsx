@@ -27,7 +27,6 @@ export default function Content() {
 
   useEffect(() => {
     getPokemon()
-    // console.log(poke)
   }, [])
 
   return (

@@ -4,7 +4,6 @@
   background-color: #e7e7e7;
   margin: 0 auto;
   width: calc(100% * 0.77705);
-  height: fit-content;
   border: 4px solid black;
   border-radius: 4px;
   animation: loadingCard 0.75s ease-in;
@@ -12,7 +11,7 @@
 }
 
 .Card:hover {
-  transform: translateY(-10px);
+  transform: translateY(-8px);
 }
 
 @keyframes loadingCard {
@@ -38,23 +37,21 @@
 
 .pk-image img {
   aspect-ratio: 1/1;
-  height: 10rem;
-  margin-bottom: -0.4rem;
+  width: calc(90%);
 }
 
 .pk-desc {
-  margin-bottom: 0.2rem;
   animation: shrink 0.75s;
   transition: all 0.75s ease-in-out;
 }
 
 @keyframes shrink {
   0% {
-    height: 9.2rem;
+    height: 9.75rem;
   }
 
   100% {
-    height: 3.6rem;
+    height: 4.2rem;
   }
 }
 
@@ -65,11 +62,11 @@
 
 @keyframes expand {
   0% {
-    height: 3rem;
+    height: 4.2rem;
   }
 
   100% {
-    height: 9.2rem;
+    height: 9.75rem;
   }
 }
 
@@ -78,18 +75,17 @@
 }
 
 .pk-info {
-  margin: 0rem 0.4rem;
+  margin: 0.2rem 0.5rem;
   justify-content: space-between;
 }
 
 .pk-types {
-  justify-content: space-around;
-  margin-bottom: 4px;
+  margin: 0rem 0.3rem;
+  justify-content: space-between;
 }
 
 .pk-types img {
-  margin-top: 4px;
-  height: 20px;
+  height: 28px;
 }
 
 .vs {
