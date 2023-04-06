@@ -4,13 +4,13 @@
 
 .List-of-cards {
   display: grid;
-  /* grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); */
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
   align-items: center;
   row-gap: 2rem;
   column-gap: 2rem;
 }
 
-@media (min-width: 640px) {
+/* @media (min-width: 640px) {
   .List-of-cards {
     grid-template-columns: repeat(2, 1fr);
   }
@@ -26,4 +26,4 @@
   .List-of-cards {
     grid-template-columns: repeat(4, 1fr);
   }
-}
+} */

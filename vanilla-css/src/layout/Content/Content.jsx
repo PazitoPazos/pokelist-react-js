@@ -1,32 +1,20 @@
 import './Content.css'
 import { useEffect, useState } from 'react'
 import Card from '../../components/Card/Card'
+import { getPokemonByName, getPokemons } from '../../services/getPokeApiData'
 
 export default function Content() {
   const [poke, setPoke] = useState([])
-  const [pkSprites, setPkSprites] = useState([])
-
-  async function getPokemon() {
-    const pokeListUrl = 'https://pokeapi.co/api/v2/pokemon/'
-
-    const resList = await fetch(pokeListUrl)
-    const pokeList = await resList.json()
-
-    const pokeEntries = pokeList.results.map((poke) => poke)
-
-    const resPoke = pokeEntries.map(async (entry) => {
-      const resData = await fetch(pokeListUrl + `${entry.name}`)
-      const pokeData = await resData.json()
-
-      return pokeData
-    })
-
-    const results = await Promise.all(resPoke)
-    setPoke(results)
-  }
 
   useEffect(() => {
-    getPokemon()
+    getPokemons().then(async (pokes) => {
+      const resPoke = pokes.map(async (p) => {
+        return getPokemonByName(p.name).then((p) => p)
+      })
+
+      const results = await Promise.all(resPoke)
+      setPoke(results)
+    })
   }, [])
 
   return (

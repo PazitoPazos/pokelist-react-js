@@ -1,5 +1,7 @@
 import './Card.css'
 import ArrowMore from '../../components/ArrowMore/ArrowMore'
+import toDigits from '../../utils/toDigits'
+import capitalize from '../../utils/capitalize'
 
 export function PkImage({ url, alt = '' }) {
   return (
@@ -87,9 +89,13 @@ export default function Card({ pkData }) {
 
   // console.log(TYPES['normal'])
 
-  const SPRITE = pkData['sprites']['other']['official-artwork']['front_default']
-  const ID = '#' + ('000' + pkData['id']).slice(-4) // TODO Convert 4-Digits format to function
-  const NAME = pkData['name'][0].toUpperCase() + pkData['name'].slice(1) // TODO Convert capitalize first letter to function
+  const unknown_sprite =
+    'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Icon-round-Question_mark.svg/480px-Icon-round-Question_mark.svg.png'
+  const SPRITE =
+    pkData['sprites']['other']['official-artwork']['front_default'] ||
+    unknown_sprite
+  const ID = toDigits(pkData['id'])
+  const NAME = capitalize(pkData['name'])
 
   const FTYPE = pkData['types'][0]['type']['name']
   let STYPE = null
