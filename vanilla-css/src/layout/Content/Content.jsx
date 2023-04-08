@@ -1,29 +1,46 @@
 import './Content.css'
-import { useEffect, useState } from 'react'
-import Card from '../../components/Card/Card'
+import { useCallback, useEffect, useState } from 'react'
 import { getPokemonByName, getPokemons } from '../../services/getPokeApiData'
+import CardList from '../../components/CardList/CardList'
 
 export default function Content() {
-  const [poke, setPoke] = useState([])
+  const [pokes, setPokes] = useState([])
+  const [page, setPage] = useState(0)
+  const [hasMore, setHasMore] = useState(true)
+  const [isLoading, setIsLoading] = useState(false)
+  const MAX_POKES = 1008
 
-  useEffect(() => {
-    getPokemons().then(async (pokes) => {
-      const resPoke = pokes.map(async (p) => {
+  async function getCards() {
+    await getPokemons(page).then(async (pks) => {
+      const resPoke = await pks.map(async (p) => {
         return getPokemonByName(p.name).then((p) => p)
       })
 
       const results = await Promise.all(resPoke)
-      setPoke(results)
+      const newPokes = results
+      setPokes([...pokes, ...newPokes])
+      setHasMore(pokes.length <= MAX_POKES)
+      setIsLoading(false)
     })
+  }
+
+  useEffect(() => {
+    getCards(page)
+  }, [page])
+
+  const loadMore = useCallback(() => {
+    setPage((page) => page + 1)
+    setIsLoading(true)
   }, [])
 
   return (
     <div className='Content'>
-      <div className='List-of-cards'>
-        {poke.map((p, i) => (
-          <Card key={i} pkData={p} />
-        ))}
-      </div>
+      <CardList
+        hasMore={hasMore}
+        isLoading={isLoading}
+        loadMore={loadMore}
+        pokemons={pokes}
+      />
     </div>
   )
 }

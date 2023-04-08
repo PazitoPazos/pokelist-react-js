@@ -52,7 +52,7 @@ export function PkVs({ vsStrongTypes, vsWeakTypes }) {
   )
 }
 
-export default function Card({ pkData }) {
+export default function Card({ measureRef, pkData }) {
   const TYPES = {
     normal:
       'https://static.wikia.nocookie.net/pyruslords/images/1/1d/Normal_Type.png',
@@ -91,25 +91,28 @@ export default function Card({ pkData }) {
 
   const unknown_sprite =
     'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Icon-round-Question_mark.svg/480px-Icon-round-Question_mark.svg.png'
-  const SPRITE =
+  const sprite =
     pkData['sprites']['other']['official-artwork']['front_default'] ||
     unknown_sprite
-  const ID = toDigits(pkData['id'])
-  const NAME = capitalize(pkData['name'])
+  const pokeId = toDigits(pkData['id'])
+  const pokeName = capitalize(pkData['name'])
 
-  const FTYPE = pkData['types'][0]['type']['name']
-  let STYPE = null
+  const first_type = pkData['types'][0]['type']['name']
+  let second_type = null
 
   if (pkData.types.length == 2) {
-    STYPE = pkData['types'][1]['type']['name']
+    second_type = pkData['types'][1]['type']['name']
   }
 
   return (
-    <div className='Card'>
-      <PkImage url={SPRITE} />
+    <div className='Card' ref={measureRef}>
+      <PkImage url={sprite} />
       <div className='pk-desc'>
-        <PkInfo id={ID} name={NAME} />
-        <PkTypes ftype={TYPES[FTYPE]} stype={STYPE ? TYPES[STYPE] : ''} />
+        <PkInfo id={pokeId} name={pokeName} />
+        <PkTypes
+          ftype={TYPES[first_type]}
+          stype={second_type ? TYPES[second_type] : ''}
+        />
         <div className='vs'>
           <div className='strong-vs'>
             <div className='title-vs'>Strong VS</div>

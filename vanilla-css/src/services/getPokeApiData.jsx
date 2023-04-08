@@ -10,7 +10,7 @@ export async function getData(url) {
   return data
 }
 
-export async function getPokemons(limit = 20, page = 0) {
+export async function getPokemons(page = 0, limit = 20) {
   const pokeListUrl = api_url_poke + `?limit=${limit}&offset=${page * limit}`
 
   const resList = await fetch(pokeListUrl)
