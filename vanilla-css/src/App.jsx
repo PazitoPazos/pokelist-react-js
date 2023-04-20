@@ -1,12 +1,12 @@
 import './App.css'
-import Content from './layout/Content/Content'
-import Header from './layout/Header/Header'
+import CardList from './components/CardList/CardList'
+import Header from './components/Header/Header'
 
 function App() {
   return (
     <div className='App'>
       <Header />
-      <Content />
+      <CardList />
     </div>
   )
 }

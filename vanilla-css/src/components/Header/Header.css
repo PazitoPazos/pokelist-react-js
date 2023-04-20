@@ -1,0 +1,68 @@
+a {
+  color: #c8c8c8;
+  font-size: 1.6rem;
+  font-style: italic;
+  text-decoration: none;
+  paint-order: stroke fill;
+  -webkit-text-stroke: 1.5px #000000;
+}
+
+input, select {
+  background-color: #f7f7f7;
+  border: none;
+  border-radius: 0.25rem;
+  box-shadow: 2px 2px;
+  outline: none; 
+  font-weight: 600;
+  text-align: left;
+  width: 8rem;
+  height: 2rem;
+}
+
+a:hover {
+  display: inline-block;
+  transform: scale(1.1) rotate(7deg);
+}
+
+.is-active {
+  font-size: 2.2rem;
+}
+
+.is-active:hover {
+  transform: none;
+}
+
+.title {
+  display: flex;
+  column-gap: 0.6rem;
+  align-items: center;
+  justify-content: center;
+}
+
+.config {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  justify-items: center;
+  gap: 1rem;
+}
+
+.config-item {
+  width: fit-content;
+}
+
+@media (min-width: 640px) {
+  a {
+    font-size: 2rem;
+  }
+  
+  .is-active {
+    font-size: 2.75rem;
+  }
+}
+
+@media (min-width: 640px) {
+  .config {
+    display: flex;
+    justify-content: center;
+  }
+}

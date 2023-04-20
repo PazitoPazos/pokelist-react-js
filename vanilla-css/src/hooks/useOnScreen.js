@@ -2,7 +2,7 @@ import { useCallback, useState } from "react";
 
 const useOnScreen = ({
   root = null,
-  rootMargin = "0px",
+  rootMargin = "64px",
   threshold = 0
 } = {}) => {
   const [observer, setObserver] = useState();

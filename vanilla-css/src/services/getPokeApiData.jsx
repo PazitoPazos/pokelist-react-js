@@ -1,33 +1,29 @@
+import { pokeGens } from '../utils/pokeGens'
+
 const api_url = 'https://pokeapi.co/api/v2/'
 const api_url_poke = api_url + 'pokemon/'
 const api_url_type = api_url + 'type/'
-const api_url_gen = api_url + 'generation/'
 
-export async function getData(url) {
+export async function getApiData(url) {
   const resData = await fetch(url)
   const data = await resData.json()
 
   return data
 }
 
-export async function getPokemons(page = 0, limit = 20) {
-  const pokeListUrl = api_url_poke + `?limit=${limit}&offset=${page * limit}`
+export async function getPokemons(page = 0, limit = 40, offset = -1) {
+  offset = offset === -1 ? page * limit : offset
 
-  const resList = await fetch(pokeListUrl)
-  const pokeList = await resList.json()
+  const pokeListUrl = api_url_poke + `?limit=${limit}&offset=${offset}`
+  const pokeList = await getApiData(pokeListUrl)
   const pokeEntries = pokeList.results.map((poke) => poke)
 
   return pokeEntries
 }
 
-export async function getPokemonById(id) {
-  const pokeById = api_url_poke + id
-  return getData(pokeById)
-}
-
-export async function getPokemonByName(name) {
-  const pokeByName = api_url_poke + name
-  return getData(pokeByName)
+export async function getPokemon(id_name) {
+  const pokeUrl = api_url_poke + id_name
+  return getApiData(pokeUrl)
 }
 
 export async function getPokeTypes() {
@@ -40,18 +36,16 @@ export async function getPokeTypes() {
 
 export async function getTypeById(id) {
   const typeById = api_url_type + id
-  return getData(typeById)
+  return getApiData(typeById)
 }
 
-export async function getPokeGens() {
-  const resList = await fetch(api_url_gen)
-  const genList = await resList.json()
-  const genEntries = genList.results.map((gen) => gen)
+export async function getPokesByGen(id, page = 0, limit = 40) {
+  const gen = pokeGens.find((g) => g.id == id)
+  const max_offset = gen.limit + gen.offset - limit
+  let offset = page * limit + gen.offset
+  if (offset > max_offset) {
+    limit = (max_offset - gen.offset) % limit
+  }
 
-  return genEntries
-}
-
-export async function getGenById(id) {
-  const genById = api_url_gen + id
-  return getData(genById)
+  return getPokemons(page, limit, offset)
 }

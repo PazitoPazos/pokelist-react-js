@@ -1,6 +1,6 @@
 import './Select.css'
 
-export default function Select({ className = '', id, options }) {
+export default function Select({ id, options }) {
   const opts = options.map((opt) => (
     <option
       key={opt.value}
@@ -11,7 +11,7 @@ export default function Select({ className = '', id, options }) {
   ))
   return (
     <div className='config-item'>
-      <select className={className} id={id}>
+      <select id={id}>
         {opts}
       </select>
     </div>

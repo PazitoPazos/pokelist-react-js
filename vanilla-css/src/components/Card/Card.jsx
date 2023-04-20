@@ -2,6 +2,8 @@ import './Card.css'
 import ArrowMore from '../../components/ArrowMore/ArrowMore'
 import toDigits from '../../utils/toDigits'
 import capitalize from '../../utils/capitalize'
+import { icon_types } from '../../utils/iconTypes'
+import { normalizeName } from '../../utils/normalizeName'
 
 export function PkImage({ url, alt = '' }) {
   return (
@@ -53,49 +55,13 @@ export function PkVs({ vsStrongTypes, vsWeakTypes }) {
 }
 
 export default function Card({ measureRef, pkData }) {
-  const TYPES = {
-    normal:
-      'https://static.wikia.nocookie.net/pyruslords/images/1/1d/Normal_Type.png',
-    fighting:
-      'https://static.wikia.nocookie.net/pyruslords/images/c/ce/Fighting_Type.png',
-    flying:
-      'https://static.wikia.nocookie.net/pyruslords/images/e/ec/Flying_Type.png',
-    poison:
-      'https://static.wikia.nocookie.net/pyruslords/images/a/ad/Poison_Type.png',
-    ground:
-      'https://static.wikia.nocookie.net/pyruslords/images/c/c4/Ground_Type.png',
-    rock: 'https://static.wikia.nocookie.net/pyruslords/images/6/69/Rock_Type.png',
-    bug: 'https://static.wikia.nocookie.net/pyruslords/images/0/0b/Bug_Type.png',
-    ghost:
-      'https://static.wikia.nocookie.net/pyruslords/images/d/d3/Ghost_Type.png',
-    steel:
-      'https://static.wikia.nocookie.net/pyruslords/images/5/5f/Steel_Type.png',
-    fire: 'https://static.wikia.nocookie.net/pyruslords/images/0/0a/Fire_Type.png',
-    water:
-      'https://static.wikia.nocookie.net/pyruslords/images/2/25/Water_Type.png',
-    grass:
-      'https://static.wikia.nocookie.net/pyruslords/images/f/f8/Grass_Type.png',
-    electric:
-      'https://static.wikia.nocookie.net/pyruslords/images/6/6f/Electric_Type.png',
-    psychic:
-      'https://static.wikia.nocookie.net/pyruslords/images/0/00/Psychic_Type.png',
-    ice: 'https://static.wikia.nocookie.net/pyruslords/images/5/50/Ice_Type.png',
-    dragon:
-      'https://static.wikia.nocookie.net/pyruslords/images/2/24/Dragon_Type.png',
-    dark: 'https://static.wikia.nocookie.net/pyruslords/images/5/51/Dark_Type.png',
-    fairy:
-      'https://static.wikia.nocookie.net/pyruslords/images/0/01/Fairy_Type.png',
-  }
-
-  // console.log(TYPES['normal'])
-
   const unknown_sprite =
     'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Icon-round-Question_mark.svg/480px-Icon-round-Question_mark.svg.png'
   const sprite =
     pkData['sprites']['other']['official-artwork']['front_default'] ||
     unknown_sprite
   const pokeId = toDigits(pkData['id'])
-  const pokeName = capitalize(pkData['name'])
+  const pokeName = normalizeName(pkData['name'])
 
   const first_type = pkData['types'][0]['type']['name']
   let second_type = null
@@ -110,8 +76,8 @@ export default function Card({ measureRef, pkData }) {
       <div className='pk-desc'>
         <PkInfo id={pokeId} name={pokeName} />
         <PkTypes
-          ftype={TYPES[first_type]}
-          stype={second_type ? TYPES[second_type] : ''}
+          ftype={icon_types[first_type]}
+          stype={second_type ? icon_types[second_type] : ''}
         />
         <div className='vs'>
           <div className='strong-vs'>

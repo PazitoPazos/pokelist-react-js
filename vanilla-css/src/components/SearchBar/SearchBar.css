@@ -12,18 +12,5 @@
 }
 
 #search-bar {
-  width: 11.5rem;
-  height: 1.625rem;
-}
-
-@media (min-width: 768px) {
-  #search-bar {
-    width: 8rem;
-  }
-}
-
-@media (min-width: 1024px) {
-  #search-bar {
-    width: 11.5rem;
-  }
+  height: 1.9rem;
 }
