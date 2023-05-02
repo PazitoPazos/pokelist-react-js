@@ -7,5 +7,5 @@ export const pokeGens = [
   { 'id': 6, 'name' : 'Kalos', 'limit': 72, 'offset': 649 },
   { 'id': 7, 'name' : 'Alola', 'limit': 88, 'offset': 721 },
   { 'id': 8, 'name' : 'Galar', 'limit': 96, 'offset': 809 },
-  { 'id': 9, 'name' : 'Paldea', 'limit': 110, 'offset': 905 },
+  { 'id': 9, 'name' : 'Paldea', 'limit': 105, 'offset': 905 },
 ]

@@ -1,13 +1,6 @@
-import { useState } from 'react'
 import './SearchBar.css'
 
-export default function SearchBar() {
-  const [text, setText] = useState('')
-
-  const handleChange = (e) => {
-    setText(e.target.value)
-  }
-
+export default function SearchBar({ value, onChange, placeholder }) {
   return (
     <div className='config-item'>
       <div className='search-bar-wrap'>
@@ -15,9 +8,9 @@ export default function SearchBar() {
           type='text'
           name='search-bar'
           id='search-bar'
-          placeholder='Search'
-          value={text}
-          onChange={handleChange}
+          placeholder={placeholder}
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
         />
         <svg
           xmlns='http://www.w3.org/2000/svg'

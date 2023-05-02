@@ -2,57 +2,47 @@ import React, { useCallback, useEffect, useState } from 'react'
 import './CardList.css'
 import Card from '../Card/Card'
 import useOnScreen from '../../hooks/useOnScreen'
-import {
-  getPokesByGen,
-  getPokemon,
-  getPokemons,
-} from '../../services/getPokeApiData'
-import { pokeGens } from '../../utils/pokeGens'
+import { usePokemons } from '../../hooks/usePokemons'
+import { getPokesByGen, getPokemon } from '../../services/getPokeApiData'
+import { sortByAz, sortById } from '../../utils/sortByMethods'
+import { filterByTypes } from '../../utils/filterByTypes'
 
-export default function CardList() {
+export default function CardList({
+  filterText,
+  filterType,
+  filterGen,
+  sortBy,
+}) {
   const [pokes, setPokes] = useState([])
-  const [page, setPage] = useState(0)
+  const [showPokes, setShowPokes] = useState([])
+  const [page, setPage] = useState(1)
   const [hasMore, setHasMore] = useState(true)
   const [isLoading, setIsLoading] = useState(false)
   const { measureRef, isIntersecting, observer } = useOnScreen()
 
-  const MAX_POKES = 1008
-
-  async function getCards() {
-    await getPokemons(page, 40).then(async (pks) => {
-      const resPoke = await pks.map(async (p) => {
-        return getPokemon(p.name).then((p) => p)
-      })
-
-      const results = await Promise.all(resPoke)
-      const newPokes = results
-      setPokes([...pokes, ...newPokes])
-      setHasMore(pokes.length <= MAX_POKES)
-      setIsLoading(false)
-    })
-  }
-
-  // async function getCards() {
-  //   const b = await getPokesByGen(2, page, 40)
-
-  //   const resPoke = b.map((p) => {
-  //     return getPokemon(p.name).then((p) => p)
-  //   })
-
-  //   const results = await Promise.all(resPoke)
-  //   const newPokes = results
-  //   setPokes([...pokes, ...newPokes])
-  //   setHasMore(pokes.length < pokeGens[2 - 1]['limit'] - 40)
-  //   setIsLoading(false)
-  // }
-
   useEffect(() => {
-    getCards()
-  }, [page])
+    setIsLoading(true)
+    setPokes([])
+    setPage(1)
+    const entries = getPokesByGen(filterGen)
+    const resPoke = entries.then(async (res) => {
+      const newPokes = await Promise.all(
+        res
+          .filter((p) => p.name.includes(filterText))
+          .map((p) => getPokemon(p.name))
+      )
+
+      const filteredPokes = filterType !== 'all' ? filterByTypes(newPokes, filterType) : newPokes
+
+      setPokes([...filteredPokes])
+    })
+
+    setIsLoading(false)
+  }, [filterText, filterType, filterGen])
 
   const loadMore = useCallback(() => {
     setPage((page) => page + 1)
-    setIsLoading(true)
+    // setIsLoading(true)
   }, [])
 
   useEffect(() => {
@@ -64,16 +54,17 @@ export default function CardList() {
 
   return (
     <div className='CardList'>
-      {pokes.map((p, i) => {
-        if (i >= MAX_POKES) return
+      {pokes
+        .sort(sortBy === 'sbid' ? sortById : sortByAz)
+        .slice(0, 40 * page)
+        .map((p, i) => {
+          if (i === pokes.slice(0, 40 * page).length - 1) {
+            return <Card measureRef={measureRef} key={i} pkData={p} />
+          }
 
-        if (i === pokes.length - 1) {
-          return <Card measureRef={measureRef} key={i} pkData={p} />
-        }
-
-        return <Card key={i} pkData={p} />
-      })}
-      {isLoading && <li>Loading...</li>}
+          return <Card key={i} pkData={p} />
+        })}
+      {/* {isLoading && <li>Loading...</li>} */}
     </div>
   )
 }

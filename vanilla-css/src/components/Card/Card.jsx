@@ -1,9 +1,9 @@
 import './Card.css'
 import ArrowMore from '../../components/ArrowMore/ArrowMore'
 import toDigits from '../../utils/toDigits'
-import capitalize from '../../utils/capitalize'
 import { icon_types } from '../../utils/iconTypes'
 import { normalizeName } from '../../utils/normalizeName'
+import capitalize from '../../utils/capitalize'
 
 export function PkImage({ url, alt = '' }) {
   return (
@@ -61,7 +61,7 @@ export default function Card({ measureRef, pkData }) {
     pkData['sprites']['other']['official-artwork']['front_default'] ||
     unknown_sprite
   const pokeId = toDigits(pkData['id'])
-  const pokeName = normalizeName(pkData['name'])
+  const pokeName = capitalize(pkData['name'])
 
   const first_type = pkData['types'][0]['type']['name']
   let second_type = null

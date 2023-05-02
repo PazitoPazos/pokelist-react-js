@@ -9,8 +9,8 @@ export function useSelOptions() {
   const [sort, setSort] = useState([])
 
   useEffect(() => {
-    const all_types = [{ value: '0', desc: 'All Types' }]
-    const all_gens = [{ value: '0', desc: 'All Regions' }]
+    const all_types = [{ value: 'all', desc: 'All Types' }]
+    const all_gens = [{ value: 'all', desc: 'All Regions' }]
     const sort_by = [
       { value: 'sbid', desc: 'Sort By Id' },
       { value: 'sbaz', desc: 'Sort By A-Z' },
@@ -19,7 +19,7 @@ export function useSelOptions() {
     setSort(sort_by)
 
     const types = pokeTypes.map((t) => {
-      return { value: t.id, desc: capitalize(t.name) }
+      return { value: t.name, desc: capitalize(t.name) }
     })
     setType(all_types.concat(types))
 

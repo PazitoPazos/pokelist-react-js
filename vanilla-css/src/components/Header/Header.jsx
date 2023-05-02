@@ -1,10 +1,18 @@
 import './Header.css'
 import SearchBar from '../SearchBar/SearchBar'
 import Select from '../Select/Select'
-import FilterContext from '../../context/FilterContext'
 import useSelOptions from '../../hooks/useSelOptions'
 
-export default function Header() {
+export default function Header({
+  filterText,
+  onFilterTextChange,
+  filterType,
+  onFilterTypeChange,
+  filterGen,
+  onFilterGenChange,
+  sortBy,
+  onSortByChange,
+}) {
   const opts = useSelOptions()
 
   return (
@@ -18,14 +26,31 @@ export default function Header() {
           <a href='#'>TypeChart</a>
         </h1>
       </div>
-      <FilterContext.Provider value={''}>
-        <div className='config'>
-          <SearchBar />
-          <Select id='select-type' options={opts.type} />
-          <Select id='select-gen' options={opts.gen} />
-          <Select id='sort-by' options={opts.sort} />
-        </div>
-      </FilterContext.Provider>
+      <div className='config'>
+        <SearchBar
+          value={filterText}
+          onChange={onFilterTextChange}
+          placeholder='Search...'
+        />
+        <Select
+          id='select-type'
+          value={filterType}
+          onChange={onFilterTypeChange}
+          options={opts.type}
+        />
+        <Select
+          id='select-gen'
+          value={filterGen}
+          onChange={onFilterGenChange}
+          options={opts.gen}
+        />
+        <Select
+          id='sort-by'
+          value={sortBy}
+          onChange={onSortByChange}
+          options={opts.sort}
+        />
+      </div>
     </div>
   )
 }

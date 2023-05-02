@@ -39,13 +39,19 @@ export async function getTypeById(id) {
   return getApiData(typeById)
 }
 
-export async function getPokesByGen(id, page = 0, limit = 40) {
-  const gen = pokeGens.find((g) => g.id == id)
-  const max_offset = gen.limit + gen.offset - limit
-  let offset = page * limit + gen.offset
-  if (offset > max_offset) {
-    limit = (max_offset - gen.offset) % limit
+export async function getPokesByGen(id) {
+  let offset;
+  let limit;
+
+  if (id === 'all') {
+    const lastGen = pokeGens[pokeGens.length - 1]
+    offset = 0
+    limit = lastGen.limit + lastGen.offset
+  } else {
+    const gen = pokeGens.find((g) => g.id == id)
+    offset = gen.offset
+    limit = gen.limit
   }
 
-  return getPokemons(page, limit, offset)
+  return getPokemons(0, limit, offset)
 }
