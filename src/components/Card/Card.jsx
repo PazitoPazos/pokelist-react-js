@@ -2,8 +2,8 @@ import './Card.css'
 import ArrowMore from '../../components/ArrowMore/ArrowMore'
 import toDigits from '../../utils/toDigits'
 import { icon_types } from '../../utils/iconTypes'
-import { normalizeName } from '../../utils/normalizeName'
 import capitalize from '../../utils/capitalize'
+import { pokeTypes } from '../../utils/pokeTypes'
 
 export function PkImage({ url, alt = '' }) {
   return (
@@ -70,6 +70,28 @@ export default function Card({ measureRef, pkData }) {
     second_type = pkData['types'][1]['type']['name']
   }
 
+  const fsTypeVs = pokeTypes.filter((type) => type.name == first_type)
+  const fsTypeWeakVs = fsTypeVs.map((type) => {
+    const concatArr = type.double_damage_from
+      .concat(type.half_damage_to)
+      .concat(type.no_damage_to)
+    const result = concatArr.filter(
+      (item, idx) => concatArr.indexOf(item) === idx
+    )
+
+    return result
+  })
+  const fsTypeStrongVs = fsTypeVs.map((type) => {
+    const concatArr = type.double_damage_to
+      .concat(type.half_damage_from)
+      .concat(type.no_damage_from)
+    const result = concatArr.filter(
+      (item, idx) => concatArr.indexOf(item) === idx
+    )
+
+    return result
+  })
+
   return (
     <div className='Card' ref={measureRef}>
       <PkImage url={sprite} />
@@ -83,20 +105,31 @@ export default function Card({ measureRef, pkData }) {
           <div className='strong-vs'>
             <div className='title-vs'>Strong VS</div>
             <div className='icon-vs'>
-              <img src={''} alt='' className='icon-vs' />
-              <img src={''} alt='' className='icon-vs' />
-              <img src={''} alt='' className='icon-vs' />
-              <img src={''} alt='' className='icon-vs' />
+              {fsTypeStrongVs[0].map((type, idx) => {
+                return (
+                  <img
+                    key={idx}
+                    src={icon_types[type]}
+                    alt='Icon Type'
+                    className='icon-vs'
+                  />
+                )
+              })}
             </div>
           </div>
           <div className='weak-vs'>
             <div className='title-vs'>Weak VS</div>
             <div className='icon-vs'>
-              <img src={''} alt='' className='icon-vs' />
-              <img src={''} alt='' className='icon-vs' />
-              <img src={''} alt='' className='icon-vs' />
-              <img src={''} alt='' className='icon-vs' />
-              <img src={''} alt='' className='icon-vs' />
+              {fsTypeWeakVs[0].map((type, idx) => {
+                return (
+                  <img
+                    key={idx}
+                    src={icon_types[type]}
+                    alt='Icon Type'
+                    className='icon-vs'
+                  />
+                )
+              })}
             </div>
           </div>
         </div>
