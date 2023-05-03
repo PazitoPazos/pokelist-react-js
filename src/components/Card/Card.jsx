@@ -105,31 +105,19 @@ export default function Card({ measureRef, pkData }) {
           <div className='strong-vs'>
             <div className='title-vs'>Strong VS</div>
             <div className='icon-vs'>
-              {fsTypeStrongVs[0].map((type, idx) => {
-                return (
-                  <img
-                    key={idx}
-                    src={icon_types[type]}
-                    alt='Icon Type'
-                    className='icon-vs'
-                  />
-                )
-              })}
+              <img src={''} alt='' className='icon-vs' />
+              <img src={''} alt='' className='icon-vs' />
+              <img src={''} alt='' className='icon-vs' />
+              <img src={''} alt='' className='icon-vs' />
             </div>
           </div>
           <div className='weak-vs'>
             <div className='title-vs'>Weak VS</div>
             <div className='icon-vs'>
-              {fsTypeWeakVs[0].map((type, idx) => {
-                return (
-                  <img
-                    key={idx}
-                    src={icon_types[type]}
-                    alt='Icon Type'
-                    className='icon-vs'
-                  />
-                )
-              })}
+              <img src={''} alt='' className='icon-vs' />
+              <img src={''} alt='' className='icon-vs' />
+              <img src={''} alt='' className='icon-vs' />
+              <img src={''} alt='' className='icon-vs' />
             </div>
           </div>
         </div>
