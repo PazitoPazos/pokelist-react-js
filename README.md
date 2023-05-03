@@ -2,7 +2,7 @@
 A simple Pokémon list built with React and PokéAPI.
 
 ## Preview
-![PokeList Page Preview](vanilla-css/public/preview.png)
+![PokeList Page Preview](public/preview.png)
 
 ## Features
 - View basic details of each Pokémon (Working on)
