@@ -1,6 +1,6 @@
 import './ArrowMore.css'
 
-export default function ArrowMore() {
+export default function ArrowMore () {
   const handleClick = (e) => {
     let el = e.target
     if (e.target.tagName === 'path') {

@@ -1,6 +1,6 @@
 import './SearchBar.css'
 
-export default function SearchBar({ value, onChange, placeholder }) {
+export default function SearchBar ({ value, onChange, placeholder }) {
   return (
     <div className='config-item'>
       <div className='search-bar-wrap'>
@@ -10,7 +10,7 @@ export default function SearchBar({ value, onChange, placeholder }) {
           id='search-bar'
           placeholder={placeholder}
           value={value}
-          onChange={(e) => onChange(e.target.value)}
+          onChange={onChange}
         />
         <svg
           xmlns='http://www.w3.org/2000/svg'

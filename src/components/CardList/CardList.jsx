@@ -2,23 +2,20 @@ import React, { useCallback, useEffect, useState } from 'react'
 import './CardList.css'
 import Card from '../Card/Card'
 import useOnScreen from '../../hooks/useOnScreen'
-import { usePokemons } from '../../hooks/usePokemons'
 import { getPokesByGen, getPokemon } from '../../services/getPokeApiData'
 import { sortByAz, sortById } from '../../utils/sortByMethods'
 import { filterByTypes } from '../../utils/filterByTypes'
+import { useFilters } from '../../hooks/useFilters'
 
-export default function CardList({
-  filterText,
-  filterType,
-  filterGen,
-  sortBy,
-}) {
+export default function CardList () {
   const [pokes, setPokes] = useState([])
   const [showPokes, setShowPokes] = useState([])
   const [page, setPage] = useState(1)
   const [hasMore, setHasMore] = useState(true)
   const [isLoading, setIsLoading] = useState(false)
   const { measureRef, isIntersecting, observer } = useOnScreen()
+  const { filters } = useFilters()
+  const { search: filterSearch, type: filterType, gen: filterGen, sortBy } = filters
 
   useEffect(() => {
     setIsLoading(true)
@@ -28,7 +25,9 @@ export default function CardList({
     const resPoke = entries.then(async (res) => {
       const newPokes = await Promise.all(
         res
-          .filter((p) => p.name.includes(filterText))
+          .sort(sortBy === 'sbid' ? sortById : sortByAz)
+          .filter((p) => p.name.includes(filterSearch))
+          .slice(0, 40 * page)
           .map((p) => getPokemon(p.name))
       )
 
@@ -38,11 +37,11 @@ export default function CardList({
     })
 
     setIsLoading(false)
-  }, [filterText, filterType, filterGen])
+  }, [filterSearch, filterType, filterGen, sortBy])
 
   const loadMore = useCallback(() => {
     setPage((page) => page + 1)
-    // setIsLoading(true)
+    setIsLoading(true)
   }, [])
 
   useEffect(() => {
@@ -55,7 +54,6 @@ export default function CardList({
   return (
     <div className='CardList'>
       {pokes
-        .sort(sortBy === 'sbid' ? sortById : sortByAz)
         .slice(0, 40 * page)
         .map((p, i) => {
           if (i === pokes.slice(0, 40 * page).length - 1) {

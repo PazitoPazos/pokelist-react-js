@@ -1,19 +1,17 @@
 import './Card.css'
 import ArrowMore from '../../components/ArrowMore/ArrowMore'
-import toDigits from '../../utils/toDigits'
-import { icon_types } from '../../utils/iconTypes'
-import capitalize from '../../utils/capitalize'
-import { pokeTypes } from '../../utils/pokeTypes'
+import { iconTypes } from '../../utils/iconTypes'
+import { capitalizeFirstLetter, toDigits } from '../../utils/stringMethods'
 
-export function PkImage({ url, alt = '' }) {
+export function PkImage ({ url, alt = '' }) {
   return (
     <div className='pk-image'>
-      <img src={url} alt={alt} />
+      <img loading="lazy" decoding="async" src={url} alt={alt} />
     </div>
   )
 }
 
-export function PkInfo({ id, name }) {
+export function PkInfo ({ id, name }) {
   return (
     <div className='pk-info'>
       <div className='pk-id'>{id}</div>
@@ -22,24 +20,26 @@ export function PkInfo({ id, name }) {
   )
 }
 
-export function PkTypes({ ftype, stype }) {
+export function PkTypes ({ ftype, stype }) {
   return (
     <div className='pk-types'>
       <div className='pk-type'>
         <img src={ftype} alt='Icon Type' />
       </div>
-      {stype === '' ? (
-        <></>
-      ) : (
-        <div className='pk-type'>
-          <img src={stype} alt='Icon Type' />
-        </div>
-      )}
+      {stype === ''
+        ? (
+          <></>
+        )
+        : (
+          <div className='pk-type'>
+            <img src={stype} alt='Icon Type' />
+          </div>
+        )}
     </div>
   )
 }
 
-export function PkVs({ vsStrongTypes, vsWeakTypes }) {
+export function PkVs ({ vsStrongTypes, vsWeakTypes }) {
   return (
     <div className='vs' id='more-info'>
       <div className='strong-vs'>
@@ -54,43 +54,43 @@ export function PkVs({ vsStrongTypes, vsWeakTypes }) {
   )
 }
 
-export default function Card({ measureRef, pkData }) {
-  const unknown_sprite =
+export default function Card ({ measureRef, pkData }) {
+  const unknownSprite =
     'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Icon-round-Question_mark.svg/480px-Icon-round-Question_mark.svg.png'
   const sprite =
-    pkData['sprites']['other']['official-artwork']['front_default'] ||
-    unknown_sprite
-  const pokeId = toDigits(pkData['id'])
-  const pokeName = capitalize(pkData['name'])
+    pkData.sprites.other['official-artwork'].front_default ||
+    unknownSprite
+  const pokeId = toDigits(pkData.id)
+  const pokeName = capitalizeFirstLetter(pkData.name)
 
-  const first_type = pkData['types'][0]['type']['name']
-  let second_type = null
+  const firstType = pkData.types[0].type.name
+  let secondType = null
 
-  if (pkData.types.length == 2) {
-    second_type = pkData['types'][1]['type']['name']
+  if (pkData.types.length === 2) {
+    secondType = pkData.types[1].type.name
   }
 
-  const fsTypeVs = pokeTypes.filter((type) => type.name == first_type)
-  const fsTypeWeakVs = fsTypeVs.map((type) => {
-    const concatArr = type.double_damage_from
-      .concat(type.half_damage_to)
-      .concat(type.no_damage_to)
-    const result = concatArr.filter(
-      (item, idx) => concatArr.indexOf(item) === idx
-    )
+  // const fsTypeVs = pokeTypes.filter((type) => type.name === firstType)
+  // const fsTypeWeakVs = fsTypeVs.map((type) => {
+  //   const concatArr = type.double_damage_from
+  //     .concat(type.half_damage_to)
+  //     .concat(type.no_damage_to)
+  //   const result = concatArr.filter(
+  //     (item, idx) => concatArr.indexOf(item) === idx
+  //   )
 
-    return result
-  })
-  const fsTypeStrongVs = fsTypeVs.map((type) => {
-    const concatArr = type.double_damage_to
-      .concat(type.half_damage_from)
-      .concat(type.no_damage_from)
-    const result = concatArr.filter(
-      (item, idx) => concatArr.indexOf(item) === idx
-    )
+  //   return result
+  // })
+  // const fsTypeStrongVs = fsTypeVs.map((type) => {
+  //   const concatArr = type.double_damage_to
+  //     .concat(type.half_damage_from)
+  //     .concat(type.no_damage_from)
+  //   const result = concatArr.filter(
+  //     (item, idx) => concatArr.indexOf(item) === idx
+  //   )
 
-    return result
-  })
+  //   return result
+  // })
 
   return (
     <div className='Card' ref={measureRef}>
@@ -98,26 +98,38 @@ export default function Card({ measureRef, pkData }) {
       <div className='pk-desc'>
         <PkInfo id={pokeId} name={pokeName} />
         <PkTypes
-          ftype={icon_types[first_type]}
-          stype={second_type ? icon_types[second_type] : ''}
+          ftype={iconTypes[firstType]}
+          stype={secondType ? iconTypes[secondType] : ''}
         />
         <div className='vs'>
           <div className='strong-vs'>
             <div className='title-vs'>Strong VS</div>
             <div className='icon-vs'>
-              <img src={''} alt='' className='icon-vs' />
-              <img src={''} alt='' className='icon-vs' />
-              <img src={''} alt='' className='icon-vs' />
-              <img src={''} alt='' className='icon-vs' />
+              {/* {fsTypeStrongVs[0].map((type, idx) => {
+                return (
+                  <img
+                    key={idx}
+                    src={icon_types[type]}
+                    alt='Icon Type'
+                    className='icon-vs'
+                  />
+                )
+              })} */}
             </div>
           </div>
           <div className='weak-vs'>
             <div className='title-vs'>Weak VS</div>
             <div className='icon-vs'>
-              <img src={''} alt='' className='icon-vs' />
-              <img src={''} alt='' className='icon-vs' />
-              <img src={''} alt='' className='icon-vs' />
-              <img src={''} alt='' className='icon-vs' />
+              {/* {fsTypeWeakVs[0].map((type, idx) => {
+                return (
+                  <img
+                    key={idx}
+                    src={icon_types[type]}
+                    alt='Icon Type'
+                    className='icon-vs'
+                  />
+                )
+              })} */}
             </div>
           </div>
         </div>

@@ -1,0 +1,30 @@
+.config {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  justify-items: center;
+  gap: 1rem;
+}
+
+.config input,
+.config select {
+  background-color: #f7f7f7;
+  border: none;
+  border-radius: 0.25rem;
+  box-shadow: 2px 2px;
+  outline: none;
+  font-weight: 600;
+  text-align: left;
+  width: 8rem;
+  height: 2rem;
+}
+
+.config-item {
+  width: fit-content;
+}
+
+@media (min-width: 640px) {
+  .config {
+    display: flex;
+    justify-content: center;
+  }
+}
