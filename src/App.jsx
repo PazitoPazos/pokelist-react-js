@@ -1,12 +1,17 @@
+import { lazy, Suspense } from 'react'
 import './App.css'
-import CardList from './components/CardList/CardList'
 import Header from './components/Header/Header'
+import LoadingSpinner from './components/LoadingSpinner/LoadingSpinner'
+
+const CardList = lazy(() => import('./components/CardList/CardList'))
 
 function App () {
   return (
     <div className='App'>
       <Header />
-      <CardList />
+      <Suspense fallback={<LoadingSpinner />}>
+        <CardList />
+      </Suspense>
     </div>
   )
 }

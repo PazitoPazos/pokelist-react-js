@@ -1,0 +1,20 @@
+.loading-spinner {
+  grid-row: 0;
+}
+
+.loading-spinner img {
+  height: 10rem;
+  width: 10rem;
+  animation: rotation 1s infinite linear;
+  margin: 0 auto;
+}
+
+@keyframes rotation {
+  from {
+    transform: rotate(0)
+  }
+
+  to {
+    transform: rotate(1turn)
+  }
+}

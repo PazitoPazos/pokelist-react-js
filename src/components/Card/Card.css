@@ -7,7 +7,6 @@
   border: 4px solid black;
   border-radius: 4px;
   animation: loadingCard 0.75s ease-in;
-  animation-delay: 0.01s;
 }
 
 .Card:hover {
@@ -17,12 +16,12 @@
 @keyframes loadingCard {
   0% {
     opacity: 0;
-    transform: translateY(-30px);
+    transform: translateY(-20px);
   }
 
   50% {
     opacity: 0.1;
-    transform: translateY(-20px);
+    transform: translateY(-10px);
   }
 
   100% {
@@ -37,37 +36,12 @@
 
 .pk-image img {
   aspect-ratio: 1/1;
-  width: calc(90%);
+  width: 90%;
 }
 
 .pk-desc {
   animation: shrink 0.75s;
   transition: all 0.75s ease-in-out;
-}
-
-@keyframes shrink {
-  0% {
-    height: 9.75rem;
-  }
-
-  100% {
-    height: 4.2rem;
-  }
-}
-
-.pk-desc.is-expanded {
-  animation: expand 0.75s;
-  transition: all 0.75s ease-out;
-}
-
-@keyframes expand {
-  0% {
-    height: 4.2rem;
-  }
-
-  100% {
-    height: 9.75rem;
-  }
 }
 
 .pk-info, .pk-types {
@@ -88,17 +62,6 @@
   height: 28px;
 }
 
-.vs {
-  display: none;
-  margin: 0.2rem 0.4rem 0.6rem;
-}
-
-.vs.is-expanded {
-  display: block;
-  animation: visible 3s;
-  transition: all 1s ease-out;
-}
-
 @keyframes visible {
   0% {
     opacity: 0;
@@ -107,15 +70,4 @@
   100% {
     opacity: 1;
   }
-}
-
-.title-vs {
-  font-size: 1rem;
-}
-
-.icon-vs {
-  display: flex;
-  justify-content: center;
-  column-gap: 0.25rem;
-  height: 1.1rem;
 }
