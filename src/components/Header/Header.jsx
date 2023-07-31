@@ -5,9 +5,7 @@ export default function Header () {
     <div className='Header'>
       <div className='main-title'>
         <h1 className='title'>
-          <a className='is-active' href='/'>
-            PokéList
-          </a>
+          PokéList
         </h1>
       </div>
       <Filters />
