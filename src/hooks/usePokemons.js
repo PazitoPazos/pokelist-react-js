@@ -4,6 +4,13 @@ import { sortByAz, sortById } from '../utils/sortByMethods'
 import { POKE_GENS } from '../data/pokeGens'
 import { filterByTypes } from '../utils/filterByTypes'
 
+async function getEntriesByType (type) {
+  const typeData = await getTypeById(type)
+  const typeEntries = typeData.pokemon.map((p) => p.pokemon)
+
+  return typeEntries
+}
+
 function filterPokemons (entries, filterSearch, filterGen, sortBy) {
   const actualGen = POKE_GENS[filterGen - 1]
   const offset = filterGen !== 'all' && actualGen.offset
@@ -22,26 +29,16 @@ export function usePokemons ({ filters, pokesPerPage, page }) {
   const [isLoading, setIsLoading] = useState(false)
   const { search: filterSearch, type: filterType, gen: filterGen, sortBy } = filters
 
-  async function getEntries (type) {
-    if (type === 'all') {
-      const allEntries = await getPokemonEntries(0, 8000)
-      return allEntries
-    }
-
-    const typeData = await getTypeById(type)
-    const typeEntries = typeData.pokemon.map((p) => p.pokemon)
-
-    return typeEntries
-  }
-
   const fetchPokemons = useCallback(async () => {
     setIsLoading(true)
     try {
-      const entries = await getEntries(filterType)
+      const entries = filterGen === 'all' && filterType !== 'all' ? await getEntriesByType(filterType) : await getPokemonEntries(0, 8000)
       const filteredPokemons = filterPokemons(entries, filterSearch, filterGen, sortBy)
-      const pokesByPage = filteredPokemons.slice((page - 1) * pokesPerPage, page * pokesPerPage)
+      const filterPokesByTypes = filteredPokemons
+      const pokesByPage = filterPokesByTypes.slice((page - 1) * pokesPerPage, page * pokesPerPage)
 
-      setTotalPages(filteredPokemons.length / pokesPerPage)
+      const totalPages = filterPokesByTypes.length / pokesPerPage
+      setTotalPages(totalPages)
 
       const newPokes = await Promise.all(pokesByPage.map((p) => getPokemon(p.name)))
       const pokesByType = filterType !== 'all' ? filterByTypes(newPokes, filterType) : newPokes
